@@ -103,7 +103,115 @@ algorithms = [
 ]
 
 # Test and plot algorithms for the first input
-test_and_plot_algorithms(firstSeries, algorithm_names, algorithms)
+#test_and_plot_algorithms(firstSeries, algorithm_names, algorithms)
 
 # Test and plot algorithms for the second input
-test_and_plot_algorithms(secondSeries, algorithm_names[1:], algorithms[1:])
+#test_and_plot_algorithms(secondSeries, algorithm_names[1:], algorithms[1:])
+
+
+def test_and_plot_algorithm(input_data, algorithm_name, algorithm_func):
+    times = []
+    for n in input_data:
+        start = time.perf_counter()
+        algorithm_func(n)
+        end = time.perf_counter()
+        times.append(end - start)
+
+    plt.plot(input_data, times, label=algorithm_name)
+    plt.xlabel('Input Size')
+    plt.ylabel('Time')
+    plt.title(f'Execution Time for {algorithm_name}')
+    plt.legend()
+    plt.show()
+
+    data = [[n, time] for n, time in zip(input_data, times)]
+    headers = ["Input Size", "Time"]
+    print(tabulate(data, headers=headers, tablefmt="fancy_grid"))
+
+# Test and plot just the Recursive algorithm for the first input
+test_and_plot_algorithm(firstSeries, "Recursive", fib_alg.fib_recursive)
+
+# Display results in a table for the Recursive algorithm for the first input
+data = []
+for n in firstSeries:
+    start_time = time.perf_counter()
+    fib_alg.fib_recursive(n)
+    end_time = time.perf_counter()
+    data.append([n, end_time - start_time])
+headers = ["Input Size", "Time"]
+print("Table result for Recursive Algorithm (First Input):")
+print(tabulate(data, headers=headers, tablefmt="fancy_grid"))
+
+# # Test and plot just the iterative algorithm for the first input
+# test_and_plot_algorithm(secondSeries, "Iterative", fib_alg.fib_iterative)
+#
+# # Display results in a table for the iterative algorithm for the first input
+# data = []
+# for n in secondSeries:
+#     start_time = time.perf_counter()
+#     fib_alg.fib_iterative(n)
+#     end_time = time.perf_counter()
+#     data.append([n, end_time - start_time])
+#
+# headers = ["Input Size", "Time"]
+# print("Table result for Iterative Algorithm (Second Input):")
+# print(tabulate(data, headers=headers, tablefmt="fancy_grid"))
+#
+#
+# # Test and plot just the matrix exponentiation algorithm for the second input
+# test_and_plot_algorithm(secondSeries, "Matrix Exponentiation", fib_alg.fib_matrix_exponentiation)
+#
+# # Display results in a table for the matrix exponentiation algorithm for the second input
+# data = []
+# for n in secondSeries:
+#     start_time = time.perf_counter()
+#     fib_alg.fib_matrix_exponentiation(n)
+#     end_time = time.perf_counter()
+#     data.append([n, end_time - start_time])
+#
+# print("Table result for Matrix Exponentiation Algorithm (Second Input):")
+# print(tabulate(data, headers=headers, tablefmt="fancy_grid"))
+#
+#
+# # Test and plot just the Binet algorithm for the second input
+# test_and_plot_algorithm(secondSeries, "Binet", fib_alg.fib_binet)
+#
+# # Display results in a table for the Binet algorithm for the second input
+# data = []
+# for n in secondSeries:
+#     start_time = time.perf_counter()
+#     fib_alg.fib_binet(n)
+#     end_time = time.perf_counter()
+#     data.append([n, end_time - start_time])
+#
+# print("Table result for Binet Algorithm (Second Input):")
+# print(tabulate(data, headers=headers, tablefmt="fancy_grid"))
+#
+# # Test and plot just the Memoization algorithm for the second input
+# test_and_plot_algorithm(secondSeries, "Memoization", fib_alg.fib_memoization)
+#
+# # Display results in a table for the Memoization algorithm for the second input
+# data = []
+# for n in secondSeries:
+#     start_time = time.perf_counter()
+#     fib_alg.fib_memoization(n)
+#     end_time = time.perf_counter()
+#     data.append([n, end_time - start_time])
+#
+# print("Table result for Memoization Algorithm (Second Input):")
+# print(tabulate(data, headers=headers, tablefmt="fancy_grid"))
+#
+# # Test and plot just the Bottom Up algorithm for the second input
+# test_and_plot_algorithm(secondSeries, "Bottom Up", fib_alg.fib_bottom_up)
+#
+# # Display results in a table for the Bottom Up algorithm for the second input
+# data = []
+# for n in secondSeries:
+#     start_time = time.perf_counter()
+#     fib_alg.fib_bottom_up(n)
+#     end_time = time.perf_counter()
+#     data.append([n, end_time - start_time])
+#
+# print("Table result for Bottom Up Algorithm (Second Input):")
+# print(tabulate(data, headers=headers, tablefmt="fancy_grid"))
+
