@@ -1,25 +1,39 @@
+import time
+import random
+import matplotlib.pyplot as plt
+import pandas as pd
+
+# Implement sorting algorithms
 def quick_sort(arr, left, right):
     if left < right:
-        partition_pos = partition(arr, left, right)
-        quick_sort(arr, left, partition_pos - 1)
-        quick_sort(arr, partition_pos + 1, right)
+        # Choose pivot using median-of-three strategy
+        mid = (left + right) // 2
+        if arr[mid] < arr[left]:
+            arr[mid], arr[left] = arr[left], arr[mid]
+        if arr[right] < arr[left]:
+            arr[right], arr[left] = arr[left], arr[right]
+        if arr[right] < arr[mid]:
+            arr[right], arr[mid] = arr[mid], arr[right]
 
-def partition(arr, left, right):
-    i = left
-    j = right - 1
-    pivot = arr[right]
+        pivot = arr[mid]
 
-    while i < j:
-        while i < right and arr[i] < pivot:
+        # Partitioning
+        i = left - 1
+        j = right + 1
+        while True:
             i += 1
-        while j > left and arr[j] >= pivot:
+            while arr[i] < pivot:
+                i += 1
             j -= 1
-        if i < j:
-            arr[i], arr[j] = arr[j], arr[i]  # swap
-    if arr[i] > pivot:
-        arr[i], arr[right] = arr[right], arr[i]  # swap
+            while arr[j] > pivot:
+                j -= 1
+            if i >= j:
+                break
+            arr[i], arr[j] = arr[j], arr[i]
 
-    return i
+        # Recursively sort partitions
+        quick_sort(arr, left, j)
+        quick_sort(arr, j + 1, right)
 
 def merge_sort(arr):
     if len(arr) > 1:
@@ -52,6 +66,7 @@ def merge_sort(arr):
             j += 1
             k += 1
 
+
 def heap_sort(arr):
     # Heapify subtree rooted at index i to satisfy heap property
     def heapify(arr, n, i):
@@ -82,6 +97,7 @@ def heap_sort(arr):
 
     return arr
 
+
 def insertion_sort(arr):
     for i in range(1, len(arr)):
         j = i
@@ -89,6 +105,111 @@ def insertion_sort(arr):
             arr[j - 1], arr[j] = arr[j], arr[j - 1]  # swap
             j -= 1
 
+sorting_algorithms = {
+    'Quick Sort': quick_sort,
+    'Merge Sort': merge_sort,
+    'Heap Sort': heap_sort,
+    'Insertion Sort': insertion_sort
+}
+# Define input sizes
+input_sizes = [100, 500, 1000, 5000, 10000, 50000, 100000]
+arr = [[random.randint(0, 100) for _ in range(length)] for length in input_sizes]
 
+for i in arr:
+    print(i)
+timeQuick = []
+for i in arr:
+    N = len(i) - 1
+    start = time.perf_counter()
+    sorting_algorithms['Quick Sort'](i, 0, N)  # Access function using square brackets and key
+    end = time.perf_counter()
+    timeQuick.append(end - start)
+
+timeMerge = []
+for i in arr:
+    start = time.perf_counter()
+    sorting_algorithms['Merge Sort'](i)
+    end = time.perf_counter()
+    timeMerge.append(end - start)
+
+timeHeap = []
+for i in arr:
+    start = time.perf_counter()
+    sorting_algorithms['Heap Sort'](i)  # Corrected the function call
+    end = time.perf_counter()
+    timeHeap.append(end - start)
+
+timeInsertion = []
+for i in arr:
+    start = time.perf_counter()
+    sorting_algorithms['Insertion Sort'](i)
+    end = time.perf_counter()
+    timeInsertion.append(end - start)
+
+# Plotting the data
+plt.plot(input_sizes, timeQuick, label='Quick Sort')
+plt.xlabel('Input Size')
+plt.ylabel('Time (seconds)')
+plt.title('Quick Sort Execution Time')
+plt.legend()  # Adding legend
+plt.show()
+
+plt.plot(input_sizes, timeHeap, label='Heap Sort')
+plt.xlabel('Input Size')
+plt.ylabel('Time (seconds)')
+plt.title('Heap Sort Execution Time')
+plt.legend()  # Adding legend
+plt.show()
+
+plt.plot(input_sizes, timeMerge, label='Merge Sort')
+plt.xlabel('Input Size')
+plt.ylabel('Time (seconds)')
+plt.title('Merge Sort Execution Time')
+plt.legend()  # Adding legend
+plt.show()
+
+plt.plot(input_sizes, timeInsertion, label='Insertion Sort')
+plt.xlabel('Input Size')
+plt.ylabel('Time (seconds)')
+plt.title('Insertion Sort Execution Time')
+plt.legend()  # Adding legend
+plt.show()
+
+# Display results in separate tables
+headers = ["Input Size", 'Quick Sort', 'Heap Sort', 'Merge Sort', 'Insertion Sort']
+df_quick = pd.DataFrame({'Input Size': input_sizes, 'Quick Sort': timeQuick})
+df_merge = pd.DataFrame({'Input Size': input_sizes, 'Merge Sort': timeMerge})
+df_heap = pd.DataFrame({'Input Size': input_sizes, 'Heap Sort': timeHeap})
+df_insertion = pd.DataFrame({'Input Size': input_sizes, 'Insertion Sort': timeInsertion})
+
+print("Quick Sort:")
+print(df_quick)
+print("\nMerge Sort:")
+print(df_merge)
+print("\nHeap Sort:")
+print(df_heap)
+print("\nInsertion Sort:")
+print(df_insertion)
+
+# Plotting the data
+plt.plot(input_sizes, timeQuick, label='Quick Sort')
+plt.plot(input_sizes, timeHeap, label='Heap Sort')
+plt.plot(input_sizes, timeMerge, label='Merge Sort')
+plt.plot(input_sizes, timeInsertion, label='Insertion Sort')
+plt.xlabel('Input Size')
+plt.ylabel('Time (seconds)')
+plt.title('Sorting Algorithms Comparison')
+plt.legend()  # Adding legend
+plt.show()
+
+data = []
+for i in range(len(input_sizes)):
+    n = input_sizes[i]
+    data.append([n, timeQuick[i], timeHeap[i], timeMerge[i], timeInsertion[i]])
+
+# Display results in a tables
+headers = ["Input Size", 'Quick Sort', 'Heap Sort', 'Merge Sort', 'Insertion Sort']
+df = pd.DataFrame(data, columns=headers)
+print(df)
 
 
