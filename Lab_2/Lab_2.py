@@ -113,7 +113,7 @@ sorting_algorithms = {
 }
 # Define input sizes
 input_sizes = [100, 500, 1000, 5000, 10000, 50000, 100000]
-arr = [[random.randint(0, 100) for _ in range(length)] for length in input_sizes]
+arr = [[random.randint(0, 1000000) for _ in range(length)] for length in input_sizes]
 
 for i in arr:
     print(i)
@@ -121,28 +121,28 @@ timeQuick = []
 for i in arr:
     N = len(i) - 1
     start = time.perf_counter()
-    sorting_algorithms['Quick Sort'](i, 0, N)  # Access function using square brackets and key
+    sorting_algorithms['Quick Sort'](i.copy(), 0, N)  # Access function using square brackets and key
     end = time.perf_counter()
     timeQuick.append(end - start)
 
 timeMerge = []
 for i in arr:
     start = time.perf_counter()
-    sorting_algorithms['Merge Sort'](i)
+    sorting_algorithms['Merge Sort'](i.copy())
     end = time.perf_counter()
     timeMerge.append(end - start)
 
 timeHeap = []
 for i in arr:
     start = time.perf_counter()
-    sorting_algorithms['Heap Sort'](i)  # Corrected the function call
+    sorting_algorithms['Heap Sort'](i.copy())  # Corrected the function call
     end = time.perf_counter()
     timeHeap.append(end - start)
 
 timeInsertion = []
 for i in arr:
     start = time.perf_counter()
-    sorting_algorithms['Insertion Sort'](i)
+    sorting_algorithms['Insertion Sort'](i.copy())
     end = time.perf_counter()
     timeInsertion.append(end - start)
 
