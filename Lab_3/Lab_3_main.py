@@ -2,12 +2,10 @@ import time
 import matplotlib.pyplot as plt
 import pandas as pd
 
-# Import DFS and BFS classes from Lab_3_DFS and Lab_3_BFS
 from Lab_3_DFS import Graph_DFS
 from Lab_3_BFS import Graph_BFS
 
 def generate_input_data(size):
-    # Generate input data for varying graph sizes
     graph = Graph_DFS()  # Using Graph_DFS for DFS analysis
     for i in range(size - 1):
         graph.addEdge(i, i + 1)
